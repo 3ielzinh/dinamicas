@@ -4,6 +4,7 @@ Views do app Core
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
+from django.db.utils import ProgrammingError, OperationalError
 from apps.dinamicas.models import Dinamica, Categoria
 
 
@@ -13,8 +14,14 @@ class HomeView(TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['total_dinamicas'] = Dinamica.objects.filter(is_active=True).count()
-        context['categorias'] = Categoria.choices
+        try:
+            context['total_dinamicas'] = Dinamica.objects.filter(is_active=True).count()
+            context['categorias'] = Categoria.choices
+        except (ProgrammingError, OperationalError):
+            # Banco ainda não foi migrado
+            context['total_dinamicas'] = 0
+            context['categorias'] = []
+            context['db_error'] = True
         return context
 
 
@@ -32,26 +39,35 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         user = self.request.user
         
-        # Estatísticas do usuário
-        context['total_favoritos'] = user.dinamicas_favoritas.count()
-        context['total_dinamicas'] = Dinamica.objects.filter(is_active=True).count()
-        
-        # Dinâmicas recentes
-        context['dinamicas_recentes'] = Dinamica.objects.filter(
-            is_active=True
-        ).order_by('-data_criacao')[:6]
-        
-        # Favoritos do usuário
-        context['favoritos_recentes'] = user.dinamicas_favoritas.all()[:6]
-        
-        # Categorias com contagem
-        context['categorias_info'] = [
-            {
-                'nome': cat[1],
-                'valor': cat[0],
-                'count': Dinamica.objects.filter(categoria=cat[0], is_active=True).count()
-            }
-            for cat in Categoria.choices
-        ]
+        try:
+            # Estatísticas do usuário
+            context['total_favoritos'] = user.dinamicas_favoritas.count()
+            context['total_dinamicas'] = Dinamica.objects.filter(is_active=True).count()
+            
+            # Dinâmicas recentes
+            context['dinamicas_recentes'] = Dinamica.objects.filter(
+                is_active=True
+            ).order_by('-data_criacao')[:6]
+            
+            # Favoritos do usuário
+            context['favoritos_recentes'] = user.dinamicas_favoritas.all()[:6]
+            
+            # Categorias com contagem
+            context['categorias_info'] = [
+                {
+                    'nome': cat[1],
+                    'valor': cat[0],
+                    'count': Dinamica.objects.filter(categoria=cat[0], is_active=True).count()
+                }
+                for cat in Categoria.choices
+            ]
+        except (ProgrammingError, OperationalError):
+            # Banco ainda não foi migrado
+            context['total_favoritos'] = 0
+            context['total_dinamicas'] = 0
+            context['dinamicas_recentes'] = []
+            context['favoritos_recentes'] = []
+            context['categorias_info'] = []
+            context['db_error'] = True
         
         return context
