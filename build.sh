@@ -3,30 +3,20 @@
 set -o errexit
 
 echo "===================================="
-echo "Starting build process..."
+echo "BUILD PHASE - Installing dependencies"
 echo "===================================="
 
 echo ""
-echo "Step 1: Upgrading pip..."
+echo "Upgrading pip..."
 pip install --upgrade pip
 
 echo ""
-echo "Step 2: Installing dependencies..."
+echo "Installing Python packages..."
 pip install -r requirements.txt
 
 echo ""
-echo "Step 3: Collecting static files..."
-python manage.py collectstatic --no-input
-
-echo ""
-echo "Step 4: Running database migrations..."
-python manage.py migrate --noinput
-
-echo ""
-echo "Step 5: Setting up Django Site..."
-python manage.py setup_site
-
-echo ""
 echo "===================================="
-echo "Build completed successfully!"
+echo "Build completed!"
+echo "Migrations and static files will be"
+echo "handled in the start command."
 echo "===================================="
