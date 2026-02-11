@@ -19,8 +19,12 @@ echo "Step 3: Collecting static files..."
 python manage.py collectstatic --no-input
 
 echo ""
-echo "Step 4: Initializing database..."
-python init_db.py
+echo "Step 4: Running database migrations..."
+python manage.py migrate --noinput
+
+echo ""
+echo "Step 5: Setting up Django Site..."
+python manage.py setup_site
 
 echo ""
 echo "===================================="
