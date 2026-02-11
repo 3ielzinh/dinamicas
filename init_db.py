@@ -34,6 +34,8 @@ def run_migrations():
         return True
     except Exception as e:
         print(f"✗ Erro ao executar migrações: {e}")
+        import traceback
+        traceback.print_exc()
         return False
 
 def create_superuser():
@@ -58,6 +60,36 @@ def create_superuser():
         print(f"⚠ Aviso ao criar superusuário: {e}")
         return True  # Não é crítico
 
+def setup_site():
+    """Configura o Site do Django para o django-allauth"""
+    try:
+        from django.contrib.sites.models import Site
+        
+        # Obter o domínio da variável de ambiente
+        domain = os.environ.get('SITE_DOMAIN', 'dinamicas.onrender.com')
+        site_name = os.environ.get('SITE_NAME', 'Dinâmicas para Igreja')
+        
+        # Verificar se já existe um site
+        if Site.objects.exists():
+            site = Site.objects.get(pk=1)
+            site.domain = domain
+            site.name = site_name
+            site.save()
+            print(f"✓ Site atualizado: {domain}")
+        else:
+            Site.objects.create(
+                pk=1,
+                domain=domain,
+                name=site_name
+            )
+            print(f"✓ Site criado: {domain}")
+        return True
+    except Exception as e:
+        print(f"⚠ Aviso ao configurar site: {e}")
+        import traceback
+        traceback.print_exc()
+        return True  # Não é crítico
+
 def main():
     """Função principal"""
     print("=" * 50)
@@ -73,6 +105,9 @@ def main():
     if not run_migrations():
         print("\n✗ Falha ao executar migrações")
         sys.exit(1)
+    
+    # Configurar site
+    setup_site()
     
     # Criar superusuário
     create_superuser()

@@ -26,3 +26,7 @@ services:
           property: connectionString
       - key: ALLOWED_HOSTS
         value: ".onrender.com"
+      - key: SITE_DOMAIN
+        value: "dinamicas.onrender.com"
+      - key: SITE_NAME
+        value: "Dinâmicas para Igreja"
