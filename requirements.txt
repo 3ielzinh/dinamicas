@@ -2,8 +2,8 @@
 Django==5.0.1
 python-decouple==3.8
 
-# Database
-psycopg2-binary==2.9.9
+# Database - psycopg3 é compatível com Python 3.13
+psycopg[binary]==3.1.18
 dj-database-url==2.1.0
 
 # Production server
