@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - +100 Dinâmicas{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-5">
+                Olá, {{ user.first_name|default:user.email }}! 
+                <i class="bi bi-emoji-smile"></i>
+            </h1>
+            <p class="lead text-muted">Bem-vindo ao seu painel de dinâmicas</p>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <i class="bi bi-collection-fill"></i>
+                        {{ total_dinamicas }}
+                    </h3>
+                    <p class="card-text">Dinâmicas Disponíveis</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <i class="bi bi-heart-fill"></i>
+                        {{ total_favoritos }}
+                    </h3>
+                    <p class="card-text">Seus Favoritos</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h3 class="card-title">
+                        <i class="bi bi-star-fill"></i>
+                        {% if user.profile.is_assinante %}Premium{% else %}Gratuito{% endif %}
+                    </h3>
+                    <p class="card-text">Seu Plano</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Categorias -->
+    <div class="row mb-5">
+        <div class="col">
+            <h3 class="mb-4">Explorar por Categoria</h3>
+            <div class="row g-3">
+                {% for cat in categorias_info %}
+                    <div class="col-md-6 col-lg-4">
+                        <a href="{% url 'dinamicas:categoria' cat.valor %}" class="text-decoration-none">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="card-title mb-0">{{ cat.nome|truncatechars:35 }}</h6>
+                                        <span class="badge bg-primary rounded-pill">{{ cat.count }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Dinâmicas Recentes -->
+    <div class="row mb-5">
+        <div class="col">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3>Dinâmicas Recentes</h3>
+                <a href="{% url 'dinamicas:lista' %}" class="btn btn-outline-primary">
+                    Ver Todas <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+            <div class="row g-4">
+                {% for dinamica in dinamicas_recentes %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <span class="badge bg-secondary">{{ dinamica.numero }}</span>
+                                    <span class="badge badge-categoria bg-info">
+                                        {{ dinamica.get_categoria_display_short }}
+                                    </span>
+                                </div>
+                                <h5 class="card-title">{{ dinamica.titulo }}</h5>
+                                <p class="card-text text-muted">
+                                    {{ dinamica.descricao|truncatewords:15 }}
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">
+                                        <i class="bi bi-clock"></i> {{ dinamica.tempo_estimado }}
+                                    </small>
+                                    <a href="{% url 'dinamicas:detalhe' dinamica.pk %}" class="btn btn-sm btn-primary">
+                                        Ver Mais
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Favoritos -->
+    {% if favoritos_recentes %}
+    <div class="row">
+        <div class="col">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3>Seus Favoritos</h3>
+                <a href="{% url 'accounts:favoritos' %}" class="btn btn-outline-success">
+                    Ver Todos <i class="bi bi-heart-fill"></i>
+                </a>
+            </div>
+            <div class="row g-4">
+                {% for dinamica in favoritos_recentes %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-success">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <span class="badge bg-secondary">{{ dinamica.numero }}</span>
+                                    <i class="bi bi-heart-fill text-success"></i>
+                                </div>
+                                <h5 class="card-title">{{ dinamica.titulo }}</h5>
+                                <p class="card-text text-muted">
+                                    {{ dinamica.descricao|truncatewords:15 }}
+                                </p>
+                                <a href="{% url 'dinamicas:detalhe' dinamica.pk %}" class="btn btn-sm btn-outline-success">
+                                    Ver Dinâmica
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,3 @@
+"""
+App Core - Funcionalidades centrais do sistema
+"""

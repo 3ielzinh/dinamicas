@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ dinamica.titulo }} - +100 Dinâmicas{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <!-- Conteúdo Principal -->
+        <div class="col-lg-8">
+            <!-- Cabeçalho -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <span class="badge bg-secondary fs-5">Dinâmica #{{ dinamica.numero }}</span>
+                            {% if dinamica.is_premium %}
+                                <span class="badge bg-warning text-dark">
+                                    <i class="bi bi-star-fill"></i> Premium
+                                </span>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Botão de Favorito -->
+                        <form method="post" action="{% url 'dinamicas:toggle_favorito' dinamica.pk %}" id="form-favorito">
+                            {% csrf_token %}
+                            <button type="submit" class="btn {% if usuario_favoritou %}btn-danger{% else %}btn-outline-danger{% endif %}" id="btn-favorito">
+                                <i class="bi bi-heart{% if usuario_favoritou %}-fill{% endif %}"></i>
+                                {% if usuario_favoritou %}Remover dos Favoritos{% else %}Adicionar aos Favoritos{% endif %}
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <h1 class="display-5 mb-3">{{ dinamica.titulo }}</h1>
+                    
+                    <div class="mb-3">
+                        <span class="badge badge-categoria bg-info me-2">
+                            {{ dinamica.get_categoria_display_short }}
+                        </span>
+                        <span class="badge bg-primary me-2">
+                            {{ dinamica.get_nivel_intensidade_display }}
+                        </span>
+                        <span class="badge bg-success">
+                            {{ dinamica.get_publico_indicado_display }}
+                        </span>
+                    </div>
+                    
+                    <p class="lead">{{ dinamica.descricao }}</p>
+                </div>
+            </div>
+
+            <!-- Verificação de Acesso -->
+            {% if not tem_acesso %}
+                <div class="alert alert-warning">
+                    <h5><i class="bi bi-lock-fill"></i> Conteúdo Premium</h5>
+                    <p>Esta dinâmica é exclusiva para assinantes premium.</p>
+                    <a href="#" class="btn btn-warning">Assinar Agora</a>
+                </div>
+            {% else %}
+                <!-- Objetivo -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0"><i class="bi bi-bullseye"></i> Objetivo</h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="mb-0">{{ dinamica.objetivo }}</p>
+                    </div>
+                </div>
+
+                <!-- Informações Práticas -->
+                <div class="card mb-4">
+                    <div class="card-header bg-info text-white">
+                        <h4 class="mb-0"><i class="bi bi-info-circle"></i> Informações Práticas</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <strong><i class="bi bi-clock"></i> Tempo Estimado:</strong><br>
+                                {{ dinamica.tempo_estimado }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <strong><i class="bi bi-people"></i> Participantes:</strong><br>
+                                {{ dinamica.quantidade_participantes }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <strong><i class="bi bi-speedometer2"></i> Intensidade:</strong><br>
+                                {{ dinamica.get_nivel_intensidade_display }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <strong><i class="bi bi-person-badge"></i> Público:</strong><br>
+                                {{ dinamica.get_publico_indicado_display }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Materiais Necessários -->
+                <div class="card mb-4">
+                    <div class="card-header bg-warning">
+                        <h4 class="mb-0"><i class="bi bi-box-seam"></i> Materiais Necessários</h4>
+                    </div>
+                    <div class="card-body">
+                        <p style="white-space: pre-line;">{{ dinamica.materiais }}</p>
+                    </div>
+                </div>
+
+                <!-- Passo a Passo -->
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="mb-0"><i class="bi bi-list-ol"></i> Passo a Passo</h4>
+                    </div>
+                    <div class="card-body">
+                        <div style="white-space: pre-line;">{{ dinamica.passo_a_passo }}</div>
+                    </div>
+                </div>
+
+                <!-- Versículo Base (se houver) -->
+                {% if dinamica.versiculo_base %}
+                <div class="card mb-4 border-secondary">
+                    <div class="card-body bg-light">
+                        <h5><i class="bi bi-book"></i> Versículo Base</h5>
+                        <p class="mb-0 fst-italic">"{{ dinamica.versiculo_base }}"</p>
+                    </div>
+                </div>
+                {% endif %}
+            {% endif %}
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Estatísticas -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Estatísticas</h5>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2">
+                            <i class="bi bi-heart-fill text-danger"></i>
+                            <strong>{{ dinamica.total_favoritos }}</strong> favorito(s)
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-calendar"></i>
+                            Adicionada em {{ dinamica.data_criacao|date:"d/m/Y" }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Ações -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Ações</h5>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-primary" onclick="window.print()">
+                            <i class="bi bi-printer"></i> Imprimir
+                        </button>
+                        <a href="{% url 'dinamicas:lista' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Voltar para Lista
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dinâmicas Relacionadas -->
+            {% if dinamicas_relacionadas %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Dinâmicas Relacionadas</h5>
+                    <div class="list-group list-group-flush">
+                        {% for rel in dinamicas_relacionadas %}
+                            <a href="{% url 'dinamicas:detalhe' rel.pk %}" class="list-group-item list-group-item-action">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge bg-secondary me-2">{{ rel.numero }}</span>
+                                        <small>{{ rel.titulo|truncatechars:30 }}</small>
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+// AJAX para toggle de favorito (opcional - melhora a UX)
+document.getElementById('form-favorito')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    fetch(this.action, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const btn = document.getElementById('btn-favorito');
+            const icon = btn.querySelector('i');
+            
+            if (data.favoritado) {
+                btn.className = 'btn btn-danger';
+                icon.className = 'bi bi-heart-fill';
+                btn.innerHTML = '<i class="bi bi-heart-fill"></i> Remover dos Favoritos';
+            } else {
+                btn.className = 'btn btn-outline-danger';
+                icon.className = 'bi bi-heart';
+                btn.innerHTML = '<i class="bi bi-heart"></i> Adicionar aos Favoritos';
+            }
+        }
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}

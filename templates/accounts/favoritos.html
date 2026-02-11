@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}Meus Favoritos - +100 Dinâmicas{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-5">
+                <i class="bi bi-heart-fill text-danger"></i>
+                Minhas Dinâmicas Favoritas
+            </h1>
+            <p class="lead text-muted">Suas dinâmicas salvas para acesso rápido</p>
+        </div>
+    </div>
+
+    {% if dinamicas %}
+        <div class="row g-4 mb-4">
+            {% for dinamica in dinamicas %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 border-danger">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <span class="badge bg-secondary fs-6">{{ dinamica.numero }}</span>
+                                <i class="bi bi-heart-fill text-danger fs-5"></i>
+                            </div>
+                            
+                            <h5 class="card-title">{{ dinamica.titulo }}</h5>
+                            
+                            <p class="text-muted small mb-2">
+                                <span class="badge badge-categoria bg-info">
+                                    {{ dinamica.get_categoria_display_short }}
+                                </span>
+                            </p>
+                            
+                            <p class="card-text text-muted">
+                                {{ dinamica.descricao|truncatewords:15 }}
+                            </p>
+                            
+                            <div class="d-flex justify-content-between align-items-center text-muted small mb-3">
+                                <span><i class="bi bi-clock"></i> {{ dinamica.tempo_estimado }}</span>
+                                <span><i class="bi bi-people"></i> {{ dinamica.quantidade_participantes|truncatechars:10 }}</span>
+                            </div>
+                            
+                            <a href="{% url 'dinamicas:detalhe' dinamica.pk %}" class="btn btn-danger btn-sm w-100">
+                                Ver Detalhes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Paginação -->
+        {% if is_paginated %}
+            <nav aria-label="Paginação">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                                Anterior
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    <li class="page-item active">
+                        <span class="page-link">
+                            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                        </span>
+                    </li>
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                                Próxima
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    {% else %}
+        <div class="row">
+            <div class="col">
+                <div class="card text-center py-5">
+                    <div class="card-body">
+                        <i class="bi bi-heart display-1 text-muted"></i>
+                        <h3 class="mt-4">Nenhuma dinâmica favoritada ainda</h3>
+                        <p class="text-muted">
+                            Explore nossa biblioteca e adicione suas dinâmicas favoritas!
+                        </p>
+                        <a href="{% url 'dinamicas:lista' %}" class="btn btn-primary mt-3">
+                            Explorar Dinâmicas
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

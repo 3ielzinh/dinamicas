@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ categoria_display }} - Dinâmicas{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="display-5 fw-bold mb-3">
+                    <i class="bi bi-star-fill text-warning"></i>
+                    {{ categoria_display }}
+                </h1>
+                <p class="lead text-muted mb-0">
+                    {% if categoria == 'QUEBRA_GELO' %}
+                        Atividades para quebrar o gelo e criar conexão entre os participantes. Perfeitas para o início de retiros e encontros.
+                    {% elif categoria == 'AUTOCONHECIMENTO' %}
+                        Dinâmicas para reflexão pessoal e autoconhecimento profundo. Momentos de introspecção e descoberta.
+                    {% elif categoria == 'TRABALHO_EQUIPE' %}
+                        Fortaleça a união e cooperação do grupo através de desafios colaborativos e trabalho em equipe.
+                    {% elif categoria == 'ESPIRITUAIS' %}
+                        Momentos de reflexão e conexão espiritual com Deus. Dinâmicas que aprofundam a fé e devoção.
+                    {% elif categoria == 'DIVERSAO_ENERGIA' %}
+                        Atividades divertidas para energizar o grupo. Jogos e brincadeiras que animam e descontraem.
+                    {% elif categoria == 'PROFUNDAS' %}
+                        Dinâmicas impactantes para momentos marcantes. Experiências transformadoras e de grande profundidade.
+                    {% endif %}
+                </p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <div class="badge bg-primary fs-5 p-3">
+                    {{ total_dinamicas }} Dinâmica{{ total_dinamicas|pluralize }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Dinâmicas Grid -->
+<section class="py-5">
+    <div class="container">
+        <!-- Botão Voltar -->
+        <div class="mb-4">
+            <a href="{% url 'core:home' %}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Voltar para Categorias
+            </a>
+            <a href="{% url 'dinamicas:lista' %}" class="btn btn-outline-primary">
+                <i class="bi bi-grid"></i> Ver Todas as Dinâmicas
+            </a>
+        </div>
+
+        {% if dinamicas %}
+            <div class="row g-4">
+                {% for dinamica in dinamicas %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 shadow-sm hover-shadow">
+                            <div class="card-body">
+                                <!-- Número e Título -->
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <span class="badge bg-primary">Nº {{ dinamica.numero }}</span>
+                                    <span class="badge bg-secondary">{{ dinamica.get_categoria_display }}</span>
+                                </div>
+                                
+                                <h5 class="card-title mb-3">{{ dinamica.titulo }}</h5>
+                                
+                                <p class="card-text text-muted small mb-3">
+                                    {{ dinamica.descricao|truncatewords:20 }}
+                                </p>
+                                
+                                <!-- Informações -->
+                                <div class="mb-3">
+                                    <small class="text-muted d-block">
+                                        <i class="bi bi-clock"></i> {{ dinamica.tempo_estimado }}
+                                    </small>
+                                    <small class="text-muted d-block">
+                                        <i class="bi bi-people"></i> {{ dinamica.quantidade_participantes }}
+                                    </small>
+                                    <small class="text-muted d-block">
+                                        <i class="bi bi-speedometer"></i> {{ dinamica.get_nivel_intensidade_display }}
+                                    </small>
+                                </div>
+                                
+                                <!-- Botão Ver Detalhes -->
+                                <a href="{% url 'dinamicas:detalhe' dinamica.pk %}" class="btn btn-outline-primary btn-sm w-100">
+                                    <i class="bi bi-eye"></i> Ver Detalhes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Paginação -->
+            {% if is_paginated %}
+                <nav aria-label="Navegação de páginas" class="mt-5">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1">
+                                    <i class="bi bi-chevron-double-left"></i> Primeira
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                                    <i class="bi bi-chevron-left"></i> Anterior
+                                </a>
+                            </li>
+                        {% endif %}
+
+                        <li class="page-item active">
+                            <span class="page-link">
+                                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                            </span>
+                        </li>
+
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                                    Próxima <i class="bi bi-chevron-right"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
+                                    Última <i class="bi bi-chevron-double-right"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        {% else %}
+            <div class="alert alert-info text-center">
+                <i class="bi bi-info-circle fs-1"></i>
+                <h4 class="mt-3">Nenhuma dinâmica encontrada nesta categoria</h4>
+                <p class="mb-0">Tente explorar outras categorias ou ver todas as dinâmicas.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+    .hover-shadow {
+        transition: all 0.3s ease;
+    }
+    
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+    }
+</style>
+{% endblock %}

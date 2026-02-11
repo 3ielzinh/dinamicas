@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block title %}Início - +100 Dinâmicas Para Retiro{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">
+            <i class="bi bi-heart-pulse-fill"></i><br>
+            +100 Dinâmicas Para Retiro na Igreja
+        </h1>
+        <p class="lead mb-4">
+            Mais de {{ total_dinamicas }} dinâmicas organizadas para transformar seus retiros e encontros!
+        </p>
+        {% if not user.is_authenticated %}
+            <div class="d-flex gap-3 justify-content-center">
+                <a href="{% url 'account_signup' %}" class="btn btn-light btn-lg px-5">
+                    Começar Agora - Grátis
+                </a>
+                <a href="{% url 'core:sobre' %}" class="btn btn-outline-light btn-lg px-5">
+                    Saiba Mais
+                </a>
+            </div>
+        {% else %}
+            <a href="{% url 'dinamicas:lista' %}" class="btn btn-light btn-lg px-5">
+                <i class="bi bi-search"></i> Explorar Dinâmicas
+            </a>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4">
+                    <div class="card-body">
+                        <i class="bi bi-collection-fill text-primary" style="font-size: 3rem;"></i>
+                        <h4 class="mt-3">+120 Dinâmicas</h4>
+                        <p class="text-muted">
+                            Biblioteca completa organizada por categorias e objetivos específicos
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4">
+                    <div class="card-body">
+                        <i class="bi bi-search text-primary" style="font-size: 3rem;"></i>
+                        <h4 class="mt-3">Busca Inteligente</h4>
+                        <p class="text-muted">
+                            Encontre rapidamente a dinâmica perfeita com filtros avançados
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 text-center p-4">
+                    <div class="card-body">
+                        <i class="bi bi-heart-fill text-primary" style="font-size: 3rem;"></i>
+                        <h4 class="mt-3">Favoritos</h4>
+                        <p class="text-muted">
+                            Salve suas dinâmicas favoritas e acesse quando precisar
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Categorias de Dinâmicas</h2>
+        <div class="row g-4">
+            {% for categoria_code, categoria_nome in categorias %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="bi bi-star-fill text-warning"></i>
+                                {{ categoria_nome }}
+                            </h5>
+                            <p class="card-text text-muted">
+                                {% if categoria_code == 'QUEBRA_GELO' %}
+                                    Atividades para quebrar o gelo e criar conexão entre os participantes.
+                                {% elif categoria_code == 'AUTOCONHECIMENTO' %}
+                                    Dinâmicas para reflexão pessoal e autoconhecimento profundo.
+                                {% elif categoria_code == 'TRABALHO_EQUIPE' %}
+                                    Fortaleça a união e cooperação do grupo.
+                                {% elif categoria_code == 'ESPIRITUAIS' %}
+                                    Momentos de reflexão e conexão espiritual com Deus.
+                                {% elif categoria_code == 'DIVERSAO_ENERGIA' %}
+                                    Atividades divertidas para energizar o grupo.
+                                {% elif categoria_code == 'PROFUNDAS' %}
+                                    Dinâmicas impactantes para momentos marcantes.
+                                {% endif %}
+                            </p>
+                            {% if user.is_authenticated %}
+                                <a href="{% url 'dinamicas:categoria' categoria_code %}" class="btn btn-outline-primary btn-sm">
+                                    Ver Dinâmicas <i class="bi bi-arrow-right"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+{% if not user.is_authenticated %}
+<section class="py-5">
+    <div class="container">
+        <div class="card bg-primary text-white">
+            <div class="card-body text-center p-5">
+                <h2 class="mb-3">Pronto para Transformar Seus Retiros?</h2>
+                <p class="lead mb-4">
+                    Crie sua conta gratuita e tenha acesso imediato a dezenas de dinâmicas!
+                </p>
+                <a href="{% url 'account_signup' %}" class="btn btn-light btn-lg px-5">
+                    Criar Conta Grátis
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

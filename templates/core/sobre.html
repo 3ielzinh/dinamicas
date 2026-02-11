@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Sobre - +100 Dinâmicas{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <h1 class="display-4 mb-4 text-center">Sobre o Projeto</h1>
+            
+            <div class="card mb-4">
+                <div class="card-body p-5">
+                    <h3 class="mb-3">
+                        <i class="bi bi-heart-pulse-fill text-primary"></i>
+                        Nossa Missão
+                    </h3>
+                    <p class="lead">
+                        Fornecer recursos de qualidade para líderes de igreja que desejam 
+                        transformar retiros e encontros em experiências inesquecíveis.
+                    </p>
+                    <p>
+                        O <strong>+100 Dinâmicas Para Retiro na Igreja</strong> nasceu da necessidade 
+                        de centralizar e organizar dinâmicas testadas e aprovadas por diversos 
+                        ministérios ao redor do Brasil.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body p-5">
+                    <h3 class="mb-3">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        O Que Oferecemos
+                    </h3>
+                    <ul class="list-unstyled">
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Mais de 120 dinâmicas organizadas por categoria
+                        </li>
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Instruções detalhadas passo a passo
+                        </li>
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Indicação de materiais necessários
+                        </li>
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Tempo estimado e quantidade de participantes
+                        </li>
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Sistema de busca e filtros avançados
+                        </li>
+                        <li class="mb-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            Favoritos personalizados
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body p-5">
+                    <h3 class="mb-3">
+                        <i class="bi bi-people-fill text-info"></i>
+                        Para Quem é Este Sistema
+                    </h3>
+                    <p>
+                        Nossa plataforma foi desenvolvida especialmente para:
+                    </p>
+                    <ul>
+                        <li>Líderes de Jovens</li>
+                        <li>Pastores e Ministros</li>
+                        <li>Coordenadores de Retiros</li>
+                        <li>Professores de Escola Dominical</li>
+                        <li>Qualquer líder que deseja impactar vidas através de dinâmicas</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="text-center">
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'account_signup' %}" class="btn btn-primary btn-lg px-5">
+                        Começar Agora
+                    </a>
+                {% else %}
+                    <a href="{% url 'core:dashboard' %}" class="btn btn-primary btn-lg px-5">
+                        Ir para o Dashboard
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
