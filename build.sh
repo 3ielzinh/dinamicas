@@ -3,7 +3,7 @@
 set -o errexit
 
 echo "===================================="
-echo "BUILD PHASE - Installing dependencies"
+echo "BUILD PHASE"
 echo "===================================="
 
 echo ""
@@ -15,8 +15,18 @@ echo "Installing Python packages..."
 pip install -r requirements.txt
 
 echo ""
+echo "Collecting static files..."
+python manage.py collectstatic --no-input
+
+echo ""
+echo "Running migrations..."
+python manage.py migrate --noinput
+
+echo ""
+echo "Setting up Django Site..."
+python manage.py setup_site
+
+echo ""
 echo "===================================="
 echo "Build completed!"
-echo "Migrations and static files will be"
-echo "handled in the start command."
 echo "===================================="
