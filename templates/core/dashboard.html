@@ -16,37 +16,37 @@
     </div>
 
     <!-- Stats Cards -->
-    <div class="row g-4 mb-5">
-        <div class="col-md-4">
+    <div class="row g-3 g-md-4 mb-5">
+        <div class="col-12 col-sm-6 col-md-4">
             <div class="card bg-primary text-white">
-                <div class="card-body">
+                <div class="card-body text-center text-md-start">
                     <h3 class="card-title">
                         <i class="bi bi-collection-fill"></i>
                         {{ total_dinamicas }}
                     </h3>
-                    <p class="card-text">Dinâmicas Disponíveis</p>
+                    <p class="card-text mb-0">Dinâmicas Disponíveis</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-12 col-sm-6 col-md-4">
             <div class="card bg-success text-white">
-                <div class="card-body">
+                <div class="card-body text-center text-md-start">
                     <h3 class="card-title">
                         <i class="bi bi-heart-fill"></i>
                         {{ total_favoritos }}
                     </h3>
-                    <p class="card-text">Seus Favoritos</p>
+                    <p class="card-text mb-0">Seus Favoritos</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-12 col-sm-6 col-md-4">
             <div class="card bg-warning text-white">
-                <div class="card-body">
+                <div class="card-body text-center text-md-start">
                     <h3 class="card-title">
                         <i class="bi bi-star-fill"></i>
                         {% if user.profile.is_assinante %}Premium{% else %}Gratuito{% endif %}
                     </h3>
-                    <p class="card-text">Seu Plano</p>
+                    <p class="card-text mb-0">Seu Plano</p>
                 </div>
             </div>
         </div>

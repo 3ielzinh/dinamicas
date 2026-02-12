@@ -23,9 +23,9 @@
                         <!-- Botão de Favorito -->
                         <form method="post" action="{% url 'dinamicas:toggle_favorito' dinamica.pk %}" id="form-favorito">
                             {% csrf_token %}
-                            <button type="submit" class="btn {% if usuario_favoritou %}btn-danger{% else %}btn-outline-danger{% endif %}" id="btn-favorito">
+                            <button type="submit" class="btn btn-sm btn-md-md {% if usuario_favoritou %}btn-danger{% else %}btn-outline-danger{% endif %}" id="btn-favorito">
                                 <i class="bi bi-heart{% if usuario_favoritou %}-fill{% endif %}"></i>
-                                {% if usuario_favoritou %}Remover dos Favoritos{% else %}Adicionar aos Favoritos{% endif %}
+                                <span class="d-none d-md-inline">{% if usuario_favoritou %}Remover dos Favoritos{% else %}Adicionar aos Favoritos{% endif %}</span>
                             </button>
                         </form>
                     </div>
@@ -73,21 +73,24 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <strong><i class="bi bi-clock"></i> Tempo Estimado:</strong><br>
-                                {{ dinamica.tempo_estimado }}
+                            <div class="col-6 col-md-6 mb-3">
+                                <strong><i class="bi bi-clock"></i> Tempo:</strong><br>
+                                <span class="d-none d-sm-inline">{{ dinamica.tempo_estimado }}</span>
+                                <span class="d-sm-none">{{ dinamica.tempo_estimado|truncatechars:15 }}</span>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-6 col-md-6 mb-3">
                                 <strong><i class="bi bi-people"></i> Participantes:</strong><br>
-                                {{ dinamica.quantidade_participantes }}
+                                <span class="d-none d-sm-inline">{{ dinamica.quantidade_participantes }}</span>
+                                <span class="d-sm-none">{{ dinamica.quantidade_participantes|truncatechars:10 }}</span>
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-6 col-md-6 mb-3">
                                 <strong><i class="bi bi-speedometer2"></i> Intensidade:</strong><br>
                                 {{ dinamica.get_nivel_intensidade_display }}
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-6 col-md-6 mb-3">
                                 <strong><i class="bi bi-person-badge"></i> Público:</strong><br>
-                                {{ dinamica.get_publico_indicado_display }}
+                                <span class="d-none d-sm-inline">{{ dinamica.get_publico_indicado_display }}</span>
+                                <span class="d-sm-none">{{ dinamica.get_publico_indicado_display|truncatechars:10 }}</span>
                             </div>
                         </div>
                     </div>

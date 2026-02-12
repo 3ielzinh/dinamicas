@@ -14,16 +14,16 @@
             Mais de {{ total_dinamicas }} dinâmicas organizadas para transformar seus retiros e encontros!
         </p>
         {% if not user.is_authenticated %}
-            <div class="d-flex gap-3 justify-content-center">
-                <a href="{% url 'account_signup' %}" class="btn btn-light btn-lg px-5">
+            <div class="d-flex gap-2 gap-md-3 justify-content-center flex-column flex-sm-row">
+                <a href="{% url 'account_signup' %}" class="btn btn-light btn-lg px-4 px-md-5">
                     Começar Agora - Grátis
                 </a>
-                <a href="{% url 'core:sobre' %}" class="btn btn-outline-light btn-lg px-5">
+                <a href="{% url 'core:sobre' %}" class="btn btn-outline-light btn-lg px-4 px-md-5">
                     Saiba Mais
                 </a>
             </div>
         {% else %}
-            <a href="{% url 'dinamicas:lista' %}" class="btn btn-light btn-lg px-5">
+            <a href="{% url 'dinamicas:lista' %}" class="btn btn-light btn-lg px-4 px-md-5">
                 <i class="bi bi-search"></i> Explorar Dinâmicas
             </a>
         {% endif %}

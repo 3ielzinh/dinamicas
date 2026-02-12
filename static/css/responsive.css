@@ -1,0 +1,210 @@
+/* ===== ESTILOS RESPONSIVOS CUSTOMIZADOS ===== */
+
+/* Utilitários responsivos */
+.text-responsive {
+    font-size: 1rem;
+}
+
+@media (max-width: 767px) {
+    .text-responsive {
+        font-size: 0.9rem;
+    }
+}
+
+/* Ajuste de imagens responsivas */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Cards responsivos */
+.card-responsive {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+@media (max-width: 767px) {
+    .card-responsive {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Botões responsivos */
+.btn-responsive {
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+@media (max-width: 576px) {
+    .btn-group-responsive {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .btn-group-responsive .btn {
+        width: 100%;
+    }
+}
+
+/* Tabelas responsivas melhoradas */
+.table-scroll-mobile {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 767px) {
+    .table-scroll-mobile table {
+        min-width: 600px;
+    }
+}
+
+/* Melhorias de navegação mobile */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        margin-top: 1rem;
+    }
+    
+    .navbar-nav {
+        padding: 0.5rem 0;
+    }
+    
+    .navbar-nav .nav-item {
+        padding: 0.25rem 0;
+    }
+}
+
+/* Formulários responsivos */
+@media (max-width: 767px) {
+    .form-control-lg,
+    .form-select-lg {
+        font-size: 1rem;
+        padding: 0.75rem;
+    }
+    
+    .input-group-text {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Modal responsivo */
+@media (max-width: 767px) {
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+    
+    .modal-body {
+        padding: 1rem;
+    }
+}
+
+/* Ajuste de espaçamento */
+@media (max-width: 767px) {
+    .py-5 {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+    
+    .my-5 {
+        margin-top: 2rem !important;
+        margin-bottom: 2rem !important;
+    }
+}
+
+/* Print friendly */
+@media print {
+    .navbar,
+    .footer,
+    .btn,
+    .no-print {
+        display: none !important;
+    }
+    
+    .card {
+        border: 1px solid #dee2e6 !important;
+        box-shadow: none !important;
+    }
+}
+
+/* Acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Dark mode (futuro) */
+@media (prefers-color-scheme: dark) {
+    /* Preparado para implementação futura */
+}
+
+/* Landscape mobile específico */
+@media (max-height: 500px) and (orientation: landscape) {
+    .hero-section {
+        padding: 1rem 0;
+    }
+    
+    .navbar {
+        padding: 0.25rem 0;
+    }
+}
+
+/* Tablets em retrato */
+@media (min-width: 768px) and (max-width: 991px) {
+    .lead {
+        font-size: 1.1rem;
+    }
+    
+    h1, .h1 {
+        font-size: 2.25rem;
+    }
+    
+    h2, .h2 {
+        font-size: 1.85rem;
+    }
+}
+
+/* Telas muito pequenas */
+@media (max-width: 360px) {
+    .container {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+    
+    .btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+    
+    .card-body {
+        padding: 0.75rem;
+    }
+}
+
+/* Hover apenas em dispositivos com mouse */
+@media (hover: hover) and (pointer: fine) {
+    .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+    
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+}
+
+/* Touch devices */
+@media (hover: none) and (pointer: coarse) {
+    /* Aumentar área de toque */
+    .btn,
+    .nav-link,
+    .dropdown-item {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
+}

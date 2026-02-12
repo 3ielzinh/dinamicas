@@ -12,13 +12,13 @@
             <!-- Search Box -->
             <div class="search-box mb-4">
                 <form method="get" action="">
-                    <div class="row g-3">
-                        <div class="col-md-6">
+                    <div class="row g-2 g-md-3">
+                        <div class="col-12 col-md-6">
                             <input type="text" name="q" class="form-control form-control-lg" 
                                    placeholder="Buscar dinâmicas..." 
                                    value="{{ search_query }}">
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-12 col-sm-6 col-md-3">
                             <select name="categoria" class="form-select form-select-lg">
                                 <option value="">Todas as Categorias</option>
                                 {% for cat_code, cat_nome in categorias %}
@@ -28,7 +28,7 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-12 col-sm-6 col-md-3">
                             <button type="submit" class="btn btn-primary btn-lg w-100">
                                 <i class="bi bi-search"></i> Buscar
                             </button>
@@ -37,7 +37,7 @@
                     
                     <!-- Filtros extras -->
                     <div class="row g-2 mt-2">
-                        <div class="col-md-3">
+                        <div class="col-6 col-md-3">
                             <select name="nivel" class="form-select">
                                 <option value="">Qualquer Intensidade</option>
                                 <option value="BAIXO" {% if nivel_selecionado == 'BAIXO' %}selected{% endif %}>Baixa</option>
@@ -45,7 +45,7 @@
                                 <option value="ALTO" {% if nivel_selecionado == 'ALTO' %}selected{% endif %}>Alta</option>
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-6 col-md-3">
                             <select name="publico" class="form-select">
                                 <option value="">Qualquer Público</option>
                                 <option value="TODOS" {% if publico_selecionado == 'TODOS' %}selected{% endif %}>Todos</option>
@@ -54,7 +54,7 @@
                                 <option value="CASAIS" {% if publico_selecionado == 'CASAIS' %}selected{% endif %}>Casais</option>
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-6 col-md-3">
                             <select name="ordem" class="form-select">
                                 <option value="numero" {% if ordem_selecionada == 'numero' %}selected{% endif %}>Por Número</option>
                                 <option value="titulo" {% if ordem_selecionada == 'titulo' %}selected{% endif %}>Por Título</option>
@@ -62,7 +62,7 @@
                                 <option value="populares" {% if ordem_selecionada == 'populares' %}selected{% endif %}>Mais Populares</option>
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-6 col-md-3">
                             <a href="{% url 'dinamicas:lista' %}" class="btn btn-outline-secondary w-100">
                                 Limpar Filtros
                             </a>

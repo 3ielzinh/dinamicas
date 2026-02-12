@@ -18,8 +18,21 @@
 - 📊 **Dashboard Personalizado**
 - 👤 **Perfis de Usuário**
 - 💎 **Sistema Premium Preparado** (Stripe)
-- 📱 **Design Responsivo com Bootstrap 5**
+- 📱 **Design 100% Responsivo** (Mobile, Tablet, Desktop)
+- 🎨 **Interface Moderna com Bootstrap 5**
 - 🚀 **Pronto para Deploy no Render**
+
+### 📱 Responsividade
+
+O site é **totalmente responsivo** e otimizado para:
+- ✅ **Smartphones** (iOS e Android) - < 768px
+- ✅ **Tablets** (iPad, etc) - 768-991px  
+- ✅ **Desktops** - > 992px
+- ✅ **Orientação landscape**
+- ✅ **Touch-friendly** (botões mínimo 44px)
+- ✅ **Print stylesheet** incluído
+
+**Ver mais:** [RESPONSIVIDADE.md](RESPONSIVIDADE.md) | [Demo](demo_responsividade.html)
 
 ## 🗂️ Estrutura do Projeto
 
@@ -50,7 +63,36 @@ Dinamicas_Igreja/
 └── populate_dinamicas.py  # Script de população
 ```
 
-## 🚀 Instalação Local
+## � Responsividade e Design
+
+O projeto foi completamente otimizado para **todos os dispositivos**:
+
+### Breakpoints Implementados
+- 📱 **Mobile Pequeno:** < 576px (iPhone SE, etc)
+- 📱 **Mobile:** < 768px (Smartphones em geral)
+- 📲 **Tablet:** 768-991px (iPads, tablets)
+- 💻 **Desktop:** > 992px (Laptops e desktops)
+
+### Características Responsivas
+- ✅ Layout adaptável (Mobile-first)
+- ✅ Navigation menu hamburguer
+- ✅ Formulários otimizados para touch
+- ✅ Cards em grid fluido
+- ✅ Botões touch-friendly (min 44px)
+- ✅ Typography escalável
+- ✅ Imagens responsivas
+- ✅ Print stylesheet
+
+### Arquivos de Responsividade
+- `static/css/responsive.css` - CSS customizado
+- `templates/base.html` - Media queries inline
+- `demo_responsividade.html` - Demonstração interativa
+- `RESPONSIVIDADE.md` - Documentação completa
+
+### Teste Rápido
+Abra `demo_responsividade.html` no navegador para ver a responsividade em ação (sem precisar do servidor Django)!
+
+## �🚀 Instalação Local
 
 ### Pré-requisitos
 
